@@ -1,26 +1,25 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Task } from './task';
 import { AppConfigService } from '../app-config/app-config.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TaskService {
+export class CRUDService {
 
   public errorMessage: string = '';
 
   constructor(
     private http: HttpClient,
-    private config: AppConfigService,
+    private configService: AppConfigService,
   ) { }
 
   // Return list
-  public get(): Observable<Task[]> {
+  public get(key: string): Observable<any[]> {
     return this.http
-      .get<Task[]>(`${this.config.getEndPoint()}/task`)
+      .get<any[]>(`${this.configService.getEndPoint()}/${key}`)
       .pipe(
         catchError(this.errorHandler)
       )
